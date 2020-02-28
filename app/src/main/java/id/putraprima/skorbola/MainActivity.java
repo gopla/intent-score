@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView homeLogo, awayLogo;
     private EditText homeTeam, awayTeam;
     private Uri homeUri, awayUri;
+    private Bitmap homeBitmap, awayBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
                 if (data != null){
                     try {
                         homeUri = data.getData();
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), homeUri);
-                        homeLogo.setImageBitmap(bitmap);
+                        homeBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), homeUri);
+                        homeLogo.setImageBitmap(homeBitmap);
                     }catch (IOException e){
                         Toast.makeText(this, "Can't load image", Toast.LENGTH_SHORT).show();
                         Log.e(TAG, e.getMessage());
@@ -71,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
                 if (data != null){
                     try {
                         awayUri = data.getData();
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), awayUri);
-                        awayLogo.setImageBitmap(bitmap);
+                        awayBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), awayUri);
+                        awayLogo.setImageBitmap(awayBitmap);
                     }catch (IOException e){
                         Toast.makeText(this, "Can't load image", Toast.LENGTH_SHORT).show();
                         Log.e(TAG, e.getMessage());
@@ -103,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         String homeUriString = homeUri.toString();
         String awayUriString = awayUri.toString();
 
-        boolean validate = !homeTeamName.isEmpty() && !awayTeamName.isEmpty() && !homeUriString.isEmpty() && !awayUriString.isEmpty();
+        boolean validate = !homeTeamName.isEmpty() && !awayTeamName.isEmpty() && homeBitmap != null && awayBitmap != null;
 
         if (validate){
             Intent i = new Intent(MainActivity.this, MatchActivity.class);
